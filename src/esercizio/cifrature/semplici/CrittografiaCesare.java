@@ -47,6 +47,9 @@ public class CrittografiaCesare {
         
         for (int i = 0; i < lunghezza; i++) {
             tempChar = (char) vetAscii[i];
+            if (tempChar == '\u001d') {
+                tempChar = ' ';
+            }
             vetChar[i] = tempChar;
         }
         
