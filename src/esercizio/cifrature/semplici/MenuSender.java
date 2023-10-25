@@ -25,16 +25,19 @@ public class MenuSender extends JFrame implements ActionListener {
         setVisible(true);
         setResizable(false);
         setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+        
+        this.addWindowListener(new WindowAdapter() {
+            @Override
+            public void windowClosed(WindowEvent e) {
+                menu.setVisible(true);
+            }
+        });
+        
     }
 
     @Override
     public void actionPerformed(ActionEvent e) {
-        this.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosing(WindowEvent windowEvent) {
-            menu.setVisible(true);
-        }
-        });
+        
     }
     
     
