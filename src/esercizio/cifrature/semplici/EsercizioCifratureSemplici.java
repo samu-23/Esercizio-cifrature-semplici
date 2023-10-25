@@ -4,6 +4,8 @@
  */
 package esercizio.cifrature.semplici;
 
+import esercizio.cifrature.semplici.GUIs.MenuPrincipale;
+
 /**
  *
  * @author espos
