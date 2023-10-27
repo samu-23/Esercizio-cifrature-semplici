@@ -57,5 +57,26 @@ public class CrittografiaCesare {
         
         return messaggioDecrittato;
     }
+    public String crittaMessaggio () {
+        String messaggioCrittato = messaggio;
+        char [] vetChar = this.messaggio.toCharArray();
+        char tempChar;
+        int lunghezza = this.messaggio.length();
+        int [] vetAscii = new int [lunghezza];
+        
+        for (int i = 0; i < lunghezza; i++) {
+            vetAscii[i] = vetChar[i] + this.chiave;
+        }
+        
+        for (int i = 0; i < lunghezza; i++) {
+            tempChar = (char) vetAscii[i];
+            vetChar[i] = tempChar;
+        }
+        
+        
+        messaggioCrittato = String.valueOf(vetChar);
+        
+        return messaggioCrittato;
+    }
     
 }
