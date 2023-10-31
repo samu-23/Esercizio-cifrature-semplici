@@ -6,43 +6,16 @@ package esercizio.cifrature.semplici;
  */
 public class CrittografiaCesare {
     
-    //Attributi
-    String messaggio;
-    int chiave;
-    
-    //Costruttore
-    public CrittografiaCesare (String messaggio, int chiave) {
-        this.messaggio = messaggio;
-        this.chiave = chiave;
-    }
-    
-    //Metodi set & get
-    public String getMessaggio () {
-        return this.messaggio;
-    }
-    
-    public void setMessaggio (String messaggio) {
-        this.messaggio = messaggio;
-    }
-    
-    public int getChiave () {
-        return this.chiave;
-    }
-    
-    public void setChiave (int chiave) {
-        this.chiave = chiave;
-    }
-    
     //Altri metodi 
-    public String decrittaMessaggio () {
+    public static String decrittaMessaggio (String messaggio, int chiave) {
         String messaggioDecrittato = messaggio;
-        char [] vetChar = this.messaggio.toCharArray();
+        char [] vetChar = messaggio.toCharArray();
         char tempChar;
-        int lunghezza = this.messaggio.length();
+        int lunghezza = messaggio.length();
         int [] vetAscii = new int [lunghezza];
         
         for (int i = 0; i < lunghezza; i++) {
-            vetAscii[i] = vetChar[i] - this.chiave;
+            vetAscii[i] = vetChar[i] - chiave;
         }
         
         for (int i = 0; i < lunghezza; i++) {
@@ -57,15 +30,15 @@ public class CrittografiaCesare {
         
         return messaggioDecrittato;
     }
-    public String crittaMessaggio () {
+    public static String crittaMessaggio (String messaggio, int chiave) {
         String messaggioCrittato = messaggio;
-        char [] vetChar = this.messaggio.toCharArray();
+        char [] vetChar = messaggio.toCharArray();
         char tempChar;
-        int lunghezza = this.messaggio.length();
+        int lunghezza = messaggio.length();
         int [] vetAscii = new int [lunghezza];
         
         for (int i = 0; i < lunghezza; i++) {
-            vetAscii[i] = vetChar[i] + this.chiave;
+            vetAscii[i] = vetChar[i] + chiave;
         }
         
         for (int i = 0; i < lunghezza; i++) {
