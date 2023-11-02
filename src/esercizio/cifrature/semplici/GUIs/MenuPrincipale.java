@@ -60,7 +60,6 @@ public class MenuPrincipale extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
        if (e.getSource() == bottoneSender) {
-           //JOptionPane.showMessageDialog(this, "Hai cliccato Sender", "Alert!", JOptionPane.WARNING_MESSAGE);
            new MenuSender("Secret Sender", this);
            this.setVisible(false);
        }
