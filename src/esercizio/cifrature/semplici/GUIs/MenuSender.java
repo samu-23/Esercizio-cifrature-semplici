@@ -114,13 +114,12 @@ public class MenuSender extends JFrame implements ActionListener {
                 int portInt = Integer.parseInt(portTextField.getText());
 
                 InetAddress ip = InetAddress.getByName(ipString);
-                InetSocketAddress socketIP = new InetSocketAddress(ip, portInt);
 
-                DatagramSocket socketUDP = new DatagramSocket(socketIP);
+                DatagramSocket socketUDP = new DatagramSocket(portInt, ip);
 
                 byte[] sendData = messageTextArea.getText().getBytes();
 
-                DatagramPacket dp = new DatagramPacket(sendData, sendData.length, socketIP);
+                DatagramPacket dp = new DatagramPacket(sendData, sendData.length, ip, portInt);
 
                 socketUDP.send(dp);
                 
