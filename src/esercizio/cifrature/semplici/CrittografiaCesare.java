@@ -52,4 +52,39 @@ public class CrittografiaCesare {
         return messaggioCrittato;
     }
     
+    public static String bruteForce(String messaggio) {
+        String messaggioOriginale = messaggio;
+        boolean sentinel = true;
+        int key = 0;
+        char target = ':';
+        char [] vetChar = messaggio.toCharArray();
+        int lunghezza = messaggio.length();
+        int [] vetAscii = new int [lunghezza];
+        char tempChar;
+        do {
+            
+            if (vetChar[4] - key == 58) {
+                sentinel = false;
+            } else key += 1;
+            
+        } while (sentinel);
+        
+        
+        for (int i = 0; i < lunghezza; i++) {
+            vetAscii[i] = vetChar[i] - key;
+        }
+        
+        for (int i = 0; i < lunghezza; i++) {
+            tempChar = (char) vetAscii[i];
+            if (tempChar == '\u001d') {
+                tempChar = ' ';
+            }
+            vetChar[i] = tempChar;
+        }
+        
+        messaggioOriginale = String.valueOf(vetChar);
+        
+        return messaggioOriginale;
+    }
+    
 }
