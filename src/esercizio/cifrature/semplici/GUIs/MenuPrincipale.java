@@ -41,9 +41,8 @@ public class MenuPrincipale extends JFrame implements ActionListener {
         
         panel.add(titoloLabel, BorderLayout.NORTH);
         buttonsPanel.add(bottoneSender);
-        buttonsPanel.add(Box.createRigidArea(new Dimension(20,0)));
+        buttonsPanel.add(Box.createRigidArea(new Dimension(300,0)));
         buttonsPanel.add(bottoneReceiver);
-        //buttonsPanel.setBorder(BorderFactory.createEmptyBorger(Color.WHITE));
         panel.setBorder(BorderFactory.createLineBorder(Color.decode("#D1D1D1"), 5, true));
         panel.setBackground(Color.decode("#D1D1D1"));
         

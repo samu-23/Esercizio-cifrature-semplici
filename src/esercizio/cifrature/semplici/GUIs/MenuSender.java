@@ -9,6 +9,8 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.*;
+import esercizio.cifrature.semplici.CrittografiaCesare;
+import esercizio.cifrature.semplici.CrittografiaVigenere;
 
 /**
  *
@@ -24,6 +26,8 @@ public class MenuSender extends JFrame implements ActionListener {
     JPanel messagePanel = new JPanel();
     JLabel messageLabel = new JLabel("Message: ");
     JTextArea messageTextArea = new JTextArea();
+    JLabel keyLabel = new JLabel("Key: ");
+    JTextField keyTextField = new JTextField();
     
     JLabel ipLabel = new JLabel("IP: ");
     JTextField ipTextField = new JTextField();
@@ -57,6 +61,7 @@ public class MenuSender extends JFrame implements ActionListener {
         
         messageTextArea.setPreferredSize(new Dimension(100,100));
         messageTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
+        keyTextField.setPreferredSize(new Dimension(50,20));
         
         ipPanel.add(ipLabel);
         ipPanel.add(ipTextField);
@@ -78,6 +83,10 @@ public class MenuSender extends JFrame implements ActionListener {
         messagePanel.setBackground(Color.decode("#D1D1D1"));
         messagePanel.add(messageLabel);
         messagePanel.add(messageTextArea);
+        messagePanel.add(Box.createRigidArea(new Dimension(100, 50)));
+        messagePanel.add(keyLabel);
+        messagePanel.add(keyTextField);
+        messagePanel.add(Box.createRigidArea(new Dimension(100, 50)));
         messagePanel.add(sendButton);
         
         centralPanel.add(ipPanel,BorderLayout.NORTH);
@@ -109,24 +118,37 @@ public class MenuSender extends JFrame implements ActionListener {
         
         if (e.getSource() == sendButton) {
             
-            try{
-                String ipString = ipTextField.getText();
-                int portInt = Integer.parseInt(portTextField.getText());
+            String ipString = ipTextField.getText();
+            int portInt = Integer.parseInt(portTextField.getText());
 
-                InetAddress ip = InetAddress.getByName(ipString);
+            sendMessage(messageTextArea.getText(), ipString, portInt); 
+            
+        }
+    }
+    
+    public void sendMessage(String message, String ip, int port) {
+        
+        
+        try{
+               
+                DatagramSocket socketUDP = new DatagramSocket();
 
-                DatagramSocket socketUDP = new DatagramSocket(portInt, ip);
+                int key = Integer.parseInt(keyTextField.getText());
+                
+                String criptedMessage = CrittografiaCesare.crittaMessaggio(messageTextArea.getText(), key);
+                
+                byte[] sendData = criptedMessage.getBytes();
 
-                byte[] sendData = messageTextArea.getText().getBytes();
-
-                DatagramPacket dp = new DatagramPacket(sendData, sendData.length, ip, portInt);
+                DatagramPacket dp = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(ip), port);
 
                 socketUDP.send(dp);
+                
+                socketUDP.close();
                 
             } catch (IOException ioex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ioex);
             }
-        }
+        
     }
     
     
