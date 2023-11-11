@@ -16,7 +16,7 @@ public class EsercizioCifratureSemplici {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        new MenuPrincipale("Secret Menu");
+        new MenuPrincipale("Secret Menu");   
     }
     
 }

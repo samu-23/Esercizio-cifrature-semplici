@@ -60,7 +60,6 @@ public class CrittografiaVigenere {
         int [] vetAsciiC = new int [lunghezzaC];
         
         int j = 0;
-        char checker = 'a';
         
         for (int i = 0; i < lunghezzaC; i++) {
             vetAsciiC[i] = vetCharC[i];
@@ -68,7 +67,6 @@ public class CrittografiaVigenere {
         
         for (int i = 0; i < lunghezzaM; i++) {
             vetAsciiM[i] = vetCharM[i] + vetAsciiC[j];
-            checker = vetCharC[j];
             j += 1;
             if (j == lunghezzaC) {
                 j = 0;
