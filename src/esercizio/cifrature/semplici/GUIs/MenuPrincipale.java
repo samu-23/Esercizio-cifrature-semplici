@@ -33,13 +33,14 @@ public class MenuPrincipale extends JFrame implements ActionListener {
         
         titoloLabel.setLocation(WIDTH/2, 0);
         titoloLabel.setFont(new Font("Monospaced", Font.BOLD, 30));
+        
         bottoneSender.setLocation(WIDTH/2-100, 100);
         bottoneReceiver.setLocation(WIDTH/2+100, 100);
         
         bottoneSender.addActionListener(this);
         bottoneReceiver.addActionListener(this);
         
-        panel.add(titoloLabel, BorderLayout.NORTH);
+        panel.add(titoloLabel);
         buttonsPanel.add(bottoneSender);
         buttonsPanel.add(Box.createRigidArea(new Dimension(300,0)));
         buttonsPanel.add(bottoneReceiver);

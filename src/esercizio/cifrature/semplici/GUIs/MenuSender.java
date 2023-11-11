@@ -36,6 +36,9 @@ public class MenuSender extends JFrame implements ActionListener {
     JButton confirmButton = new JButton("Insert");
     JButton sendButton = new JButton("Send");
     
+    JRadioButton cesare = new JRadioButton("Cesare");
+    JRadioButton vigenere = new JRadioButton("Vigenerè");
+    
     JLabel titoloLabel = new JLabel("Secret Sender");
     
     public MenuSender(String title, MenuPrincipale menu) {
@@ -71,6 +74,11 @@ public class MenuSender extends JFrame implements ActionListener {
         ipPanel.add(Box.createRigidArea(new Dimension(20,0)));
         ipPanel.add(confirmButton);
         
+        cesare.setBackground(Color.decode("#D1D1D1"));
+        vigenere.setBackground(Color.decode("#D1D1D1"));
+        
+        cesare.addActionListener(this);
+        vigenere.addActionListener(this);
         
         titoloLabel.setLocation(WIDTH/2, 0);
         titoloLabel.setFont(new Font("Monospaced", Font.BOLD, 30));
@@ -86,7 +94,10 @@ public class MenuSender extends JFrame implements ActionListener {
         messagePanel.add(Box.createRigidArea(new Dimension(100, 50)));
         messagePanel.add(keyLabel);
         messagePanel.add(keyTextField);
-        messagePanel.add(Box.createRigidArea(new Dimension(100, 50)));
+        messagePanel.add(Box.createRigidArea(new Dimension(40, 50)));
+        messagePanel.add(cesare);
+        messagePanel.add(vigenere);
+        messagePanel.add(Box.createRigidArea(new Dimension(40, 50)));
         messagePanel.add(sendButton);
         
         centralPanel.add(ipPanel,BorderLayout.NORTH);
@@ -121,15 +132,32 @@ public class MenuSender extends JFrame implements ActionListener {
             String ipString = ipTextField.getText();
             int portInt = Integer.parseInt(portTextField.getText());
 
-            sendMessage(messageTextArea.getText(), ipString, portInt); 
+            if (cesare.isSelected() || vigenere.isSelected()) sendMessage(messageTextArea.getText(), ipString, portInt); 
             
         }
+        
+        if (e.getSource() == cesare) {
+            
+            if (vigenere.isSelected() && cesare.isSelected()) {
+                vigenere.setSelected(false);
+            }
+            
+        }
+        
+        if (e.getSource() == vigenere) {
+            
+            if (cesare.isSelected() && vigenere.isSelected()) {
+                cesare.setSelected(false);
+            }
+            
+        }
+        
     }
     
     public void sendMessage(String message, String ip, int port) {
         
-        
-        try{
+        if (cesare.isSelected()) {
+            try{
                
                 DatagramSocket socketUDP = new DatagramSocket();
 
@@ -148,6 +176,28 @@ public class MenuSender extends JFrame implements ActionListener {
             } catch (IOException ioex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ioex);
             }
+        } else if (vigenere.isSelected()) {
+            
+            try{
+               
+                DatagramSocket socketUDP = new DatagramSocket();
+
+                String key = keyTextField.getText();
+                
+                String criptedMessage = CrittografiaVigenere.crittaMessaggio(messageTextArea.getText(), key);
+                
+                byte[] sendData = criptedMessage.getBytes();
+
+                DatagramPacket dp = new DatagramPacket(sendData, sendData.length, InetAddress.getByName(ip), port);
+
+                socketUDP.send(dp);
+                
+                socketUDP.close();
+                
+            } catch (IOException ioex) {
+                JOptionPane.showMessageDialog(null, "Error: " + ioex);
+            }
+        }
         
     }
     
