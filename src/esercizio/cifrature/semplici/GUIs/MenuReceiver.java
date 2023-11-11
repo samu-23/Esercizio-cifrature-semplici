@@ -9,6 +9,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.io.IOException;
 import java.net.*;
+import javax.swing.event.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.ArrayList;
@@ -34,14 +35,19 @@ public class MenuReceiver extends JFrame implements ActionListener {
     DefaultTableModel tableModel = new DefaultTableModel(infoTabella, 0) {
     
         @Override
-        public boolean isCellEditable(int row, int cell) {
+        public boolean isCellEditable(int row, int column) {
+            // Imposta tutte le celle come non modificabili
             return false;
         }
     
     };
 
+    
+    
     JTable table = new JTable(tableModel);
     TableColumn firstColumn = table.getColumnModel().getColumn(0);
+    
+    
     
     JLabel getIpLabel = new JLabel("Your IP: ");
     JTextField getIpTextField = new JTextField();
@@ -86,6 +92,15 @@ public class MenuReceiver extends JFrame implements ActionListener {
         
         firstColumn.setPreferredWidth(400);
         addRow("Messaggio cifrato");
+        
+        // Disabilitare la selezione delle righe della tabella
+        table.setSelectionMode(ListSelectionModel.SINGLE_SELECTION);
+        table.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                table.getSelectionModel().clearSelection();
+            }
+        });
         
         centralPanel.add(portLabel);
         centralPanel.add(portTextField);
