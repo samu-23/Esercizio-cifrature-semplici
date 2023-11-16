@@ -23,11 +23,11 @@ public class MenuPrincipale extends JFrame implements ActionListener {
     
     JLabel titoloLabel = new JLabel("Secret Menu");
     JButton bottoneSender = new JButton("Sender");
-    JButton bottoneReceiver = new JButton("Receiver");
+    JButton bottoneReceiver = new JButton("  Inbox  ");
     
     public MenuPrincipale(String title) {
         setTitle(title);
-        setBounds(200, 100, 800, 600);
+        setBounds(200, 100, 300, 200);
         
         // Componenti del JFrame
         
@@ -65,7 +65,7 @@ public class MenuPrincipale extends JFrame implements ActionListener {
        }
        
        if (e.getSource() == bottoneReceiver) {
-           new MenuReceiver("Secret Receiver", this);
+           new MenuReceiver("Secret Inbox", this);
            this.setVisible(false);
        }
     }
