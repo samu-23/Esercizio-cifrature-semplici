@@ -30,7 +30,7 @@ public class MenuReceiver extends JFrame implements ActionListener {
     JPanel northPanel = new JPanel();
     JPanel centralPanel = new JPanel();
     
-    JLabel titoloLabel = new JLabel("Secret Receiver");
+    JLabel titoloLabel = new JLabel("Secret Inbox");
     
     DefaultTableModel tableModel = new DefaultTableModel(infoTabella, 0) {
     
@@ -62,7 +62,7 @@ public class MenuReceiver extends JFrame implements ActionListener {
     public MenuReceiver(String title, MenuPrincipale menu) {
         
         setTitle(title);
-        setBounds(200, 100, 800, 600);
+        setBounds(200, 100, 1000, 400);
         
         setVisible(true);
         setResizable(false);
@@ -126,6 +126,8 @@ public class MenuReceiver extends JFrame implements ActionListener {
     @Override
     public void actionPerformed(ActionEvent e) {
         if (e.getSource() == openSocketButton) {
+            
+            
             
             try {
                 

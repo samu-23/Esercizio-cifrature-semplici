@@ -29,6 +29,9 @@ public class MenuSender extends JFrame implements ActionListener {
     JLabel keyLabel = new JLabel("Key: ");
     JTextField keyTextField = new JTextField();
     
+    JLabel agentLabel = new JLabel("Agent Code: ");
+    JTextField agentTextField = new JTextField();
+    
     JLabel ipLabel = new JLabel("IP: ");
     JTextField ipTextField = new JTextField();
     JLabel portLabel = new JLabel("Port: ");
@@ -43,7 +46,7 @@ public class MenuSender extends JFrame implements ActionListener {
     
     public MenuSender(String title, MenuPrincipale menu) {
         setTitle(title);
-        setBounds(200, 100, 800, 600);
+        setBounds(200, 100, 1000, 400);
         
         setVisible(true);
         setResizable(false);
@@ -65,6 +68,7 @@ public class MenuSender extends JFrame implements ActionListener {
         messageTextArea.setPreferredSize(new Dimension(100,100));
         messageTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         keyTextField.setPreferredSize(new Dimension(50,20));
+        agentTextField.setPreferredSize(new Dimension(50,20));
         
         ipPanel.add(ipLabel);
         ipPanel.add(ipTextField);
@@ -89,6 +93,9 @@ public class MenuSender extends JFrame implements ActionListener {
         
         messagePanel.setBorder(BorderFactory.createLineBorder(Color.decode("#D1D1D1"), 5, true));
         messagePanel.setBackground(Color.decode("#D1D1D1"));
+        messagePanel.add(agentLabel);
+        messagePanel.add(agentTextField);
+        messagePanel.add(Box.createRigidArea(new Dimension(20, 50)));
         messagePanel.add(messageLabel);
         messagePanel.add(messageTextArea);
         messagePanel.add(Box.createRigidArea(new Dimension(100, 50)));
@@ -114,7 +121,13 @@ public class MenuSender extends JFrame implements ActionListener {
         if (e.getSource() == confirmButton) {
             try {
                 
+                if (ipTextField.getText().isEmpty() || ipTextField.getText() == null) {
+                    throw new Exception();
+                }
                 
+                if (portTextField.getText().isEmpty() || portTextField.getText() == null) {
+                    throw new Exception();
+                }
                 
                 JOptionPane.showMessageDialog(null, "IP e porta inseriti con successo");
                 ipTextField.setEditable(false);
@@ -123,17 +136,31 @@ public class MenuSender extends JFrame implements ActionListener {
                 
             } catch (IllegalArgumentException argumentex) {
                 JOptionPane.showMessageDialog(null, "Porta non valida! Inserisci una porta tra 1-65535");
+            } catch (Exception ex) {
+                JOptionPane.showMessageDialog(null, "Controllare i campi IP e Port.");
             }
             
         }
         
         if (e.getSource() == sendButton) {
             
-            String ipString = ipTextField.getText();
-            int portInt = Integer.parseInt(portTextField.getText());
+            try {
+                String ipString = ipTextField.getText();
+                int portInt = Integer.parseInt(portTextField.getText());
 
-            if (cesare.isSelected() || vigenere.isSelected()) sendMessage(messageTextArea.getText(), ipString, portInt); 
-            
+                if (messageTextArea.getText().length() >= 512) {
+                    throw new IllegalArgumentException();
+                }
+                
+                if (agentTextField.getText().isEmpty() || agentTextField.getText() == null) throw new IndexOutOfBoundsException();
+                String bindedString = agentTextField.getText() + ": " + messageTextArea.getText();
+                
+                if (cesare.isSelected() || vigenere.isSelected()) sendMessage(bindedString, ipString, portInt); 
+            } catch (IndexOutOfBoundsException ex) {
+                JOptionPane.showMessageDialog(null, "Controlla di aver inserito il tuo codice Agente.");
+            } catch (IllegalArgumentException ilex) {
+                JOptionPane.showMessageDialog(null, "Scrivi meno di 512 caratteri!\n" + ilex);
+            }
         }
         
         if (e.getSource() == cesare) {
@@ -163,7 +190,7 @@ public class MenuSender extends JFrame implements ActionListener {
 
                 int key = Integer.parseInt(keyTextField.getText());
                 
-                String criptedMessage = CrittografiaCesare.crittaMessaggio(messageTextArea.getText(), key);
+                String criptedMessage = CrittografiaCesare.crittaMessaggio(message, key);
                 
                 byte[] sendData = criptedMessage.getBytes();
 
@@ -175,6 +202,8 @@ public class MenuSender extends JFrame implements ActionListener {
                 
             } catch (IOException ioex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ioex);
+            } catch (IllegalArgumentException iaex) {
+                JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver inserito solo numeri nella chiave!");
             }
         } else if (vigenere.isSelected()) {
             
@@ -183,6 +212,12 @@ public class MenuSender extends JFrame implements ActionListener {
                 DatagramSocket socketUDP = new DatagramSocket();
 
                 String key = keyTextField.getText();
+                
+                for (int i = 0; i < key.length(); i++) {
+                    if (Integer.valueOf(key.charAt(i)) < 65 || Integer.valueOf(key.charAt(i)) > 90) {
+                        if (Integer.valueOf(key.charAt(i)) < 97 || Integer.valueOf(key.charAt(i)) > 122) throw new IllegalArgumentException();
+                    }
+                }
                 
                 String criptedMessage = CrittografiaVigenere.crittaMessaggio(messageTextArea.getText(), key);
                 
@@ -196,6 +231,8 @@ public class MenuSender extends JFrame implements ActionListener {
                 
             } catch (IOException ioex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ioex);
+            } catch (IllegalArgumentException iaex) {
+                JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver inserito solo lettere nella chiave!");
             }
         }
         
