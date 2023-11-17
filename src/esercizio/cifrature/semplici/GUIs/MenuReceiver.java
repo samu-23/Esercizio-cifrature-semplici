@@ -10,8 +10,6 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.net.*;
 import javax.swing.event.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import java.util.ArrayList;
 import javax.swing.table.TableColumn;
 import javax.swing.table.DefaultTableModel;
@@ -36,13 +34,10 @@ public class MenuReceiver extends JFrame implements ActionListener {
     
         @Override
         public boolean isCellEditable(int row, int column) {
-            // Imposta tutte le celle come non modificabili
             return false;
         }
     
     };
-
-    
     
     JTable table = new JTable(tableModel);
     TableColumn firstColumn = table.getColumnModel().getColumn(0);
