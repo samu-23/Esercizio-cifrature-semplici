@@ -89,18 +89,18 @@ public class CrittografiaVigenere {
         
         ArrayList<String> listaDecifrata = new ArrayList<String>();
         
-        String chiave = "AAAAA";
+        String chiave = "zzzzz";
         int [] vetValidi = new int [3];
         int [][] matValidi = new int [3][10];
         boolean sentinel = true;
         char iniziale = '<';
         char finale = '>';
         int Z_val = 90;
-        int X_val = 88;
-        int R_val = 82;
+        int j_val = 106;
+        int J_val = 74;
+        int c_val = 99;
         int a_val = 97;
-        int r_val = 114;
-        int z_val = 122;
+        int A_val = 65;
         int temp;
         
         char [] vetCharM = messaggio.toCharArray();
@@ -141,12 +141,12 @@ public class CrittografiaVigenere {
             } else vetAsciiC[4] += 1;
             
         } while (sentinel);
-         //Trova le lettere di mezzo che danno 0 come risultato alla sottrazione tra messaggio e chiave (caratteri interi dell'agente)
+         //Trova le lettere di mezzo che danno 9 come risultato alla sottrazione tra messaggio e chiave (caratteri interi dell'agente)
         for (int i = 0; i < 3; i++) {
             
             sentinel = true;
             do {
-                if (vetAsciiM[i+1] - vetAsciiC[i+1] == 48) {
+                if (vetAsciiM[i+1] - vetAsciiC[i+1] == 57) {
                     vetValidi[i] = vetAsciiC[i+1];
                     sentinel = false;
                 } else if (vetAsciiC[i+1] == Z_val + 1) {
@@ -157,47 +157,41 @@ public class CrittografiaVigenere {
         
         
         /*
-        Partire dal valore della lettera che dà zero e controllare
-        se minore di R (82) 
-        altrimenti controllare se maggiore o uguale a 'R' (82) e minore di 'X' (88)
-        altrimenti controllare se maggiore o uguale a 'X' (88) e minore di 'Z' (90) per gestire i possibili caratteri minuscoli
-        altrimenti controllare se maggiore o uguale a 'a' (97) e minore di 'r' (114)
-        altrimenti controllare se maggiore o uguale a 'r' (114)
-        se uno dei caratteri calcolati non è considerato come possibile chiave viene inserito '0' nella matrice
-        se un carattere della chiave risulta non appartenere ad una lettera viene inserito '1' nella matrice
+        Partire dal valore della lettera che dà 9 e controllare se il carattere può essere una possibile chiave
+        se uno dei caratteri calcolati non è considerato come possibile chiave viene inserito 0 nella matrice
         */
         
         for (int i = 0; i < 3; i++) {
             
             temp = vetValidi[i];
-            if (temp < R_val) {
+            if (temp > j_val) {
                 for (int j = 0; j < 10; j++) {
-                    matValidi[i][j] = temp + j;
+                    matValidi[i][j] = temp - j;
                 }
-            } else if (temp >= R_val && temp < X_val){
+            } else if (temp >= c_val && temp <= j_val){
                 for (int j = 0; j < 10; j++) {
-                    if (temp + j <= Z_val) {
-                        matValidi[i][j] = temp + j;
+                    if (temp - j >= a_val) {
+                        matValidi[i][j] = temp - j;
                     } else {
                         matValidi[i][j] = 0;
                     }
                 }
-            } else if (temp >= X_val && temp <= Z_val) {
+            } else if (temp >= a_val && temp <= c_val) {
                 for (int j = 0; j < 10; j++) {
-                    if (temp + j <= Z_val || temp + j >= a_val) {
-                        matValidi[i][j] = temp + j;
+                    if (temp - j <= Z_val || temp - j >= a_val) {
+                        matValidi[i][j] = temp - j;
                     } else {
                         matValidi[i][j] = 0;
                     }
                 }
-            } else if (temp >= a_val && temp < r_val) {
+            } else if (temp <= Z_val && temp > J_val) {
                 for (int j = 0; j < 10; j++) {
-                    matValidi[i][j] = temp + j;
+                    matValidi[i][j] = temp - j;
                 }
-            } else if (temp >= r_val) {
+            } else if (temp <= J_val) {
                 for (int j = 0; j < 10; j++) {
-                    if (temp + j <= z_val) {
-                        matValidi[i][j] = temp + j;
+                    if (temp - j >= A_val) {
+                        matValidi[i][j] = temp - j;
                     } else {
                         matValidi[i][j] = 0;
                     }
