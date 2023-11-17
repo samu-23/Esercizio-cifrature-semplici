@@ -11,6 +11,11 @@ import java.util.ArrayList;
 
 import esercizio.cifrature.semplici.CrittografiaCesare;
 import esercizio.cifrature.semplici.CrittografiaVigenere;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -93,7 +98,29 @@ public class MenuDecoder extends JFrame implements ActionListener {
                 String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
                 System.out.println(toDecrypt);
                 ArrayList<String> possibleMessages = CrittografiaVigenere.bruteForce(toDecrypt);
-                JOptionPane.showMessageDialog(null, "Messaggi trovati: \n" + possibleMessages.get(0));
+                //JOptionPane.showMessageDialog(null, "Messaggi trovati: \n" + possibleMessages.toString());
+               
+                    String outputFilePath = System.getProperty("user.home") + "/Desktop/BRUTE FORCE Vigenere.txt";
+                try {
+                    BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
+                    String allMessages = possibleMessages.toString();
+                    allMessages = allMessages.replace(allMessages.charAt(0), ' ');
+                    allMessages = allMessages.replace(allMessages.charAt(allMessages.length()-1), ' ');
+                    String[] decryptedMessages = allMessages.split(",");
+                    
+                    for (String message : decryptedMessages) {
+                        
+                        writer.write(message);
+                        writer.newLine();
+                        
+                    }
+                    
+                    writer.close();
+                    JOptionPane.showMessageDialog(null, "Le combinazioni sono nel file 'BRUTE FORCE Vigenere'\nPercorso file: " + outputFilePath);
+                    
+                } catch (IOException ex) {
+                    
+                }
                 
             } else if (cesareDec.isSelected()) {
                 String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
