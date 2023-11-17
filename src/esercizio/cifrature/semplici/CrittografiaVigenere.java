@@ -230,7 +230,7 @@ public class CrittografiaVigenere {
             if (riga == matValidi.length) {
                 risultato.add(A + parziale + B);
             } else {
-                // Genera le combinazioni per la riga corrente, evitando il valore 0
+                // Genera le combinazioni per la riga corrente, evitando il valore 0 
                 for (int colonna = 0; colonna < matValidi[riga].length; colonna++) {
                     if (matValidi[riga][colonna] != 0) {
                         // Aggiungi la combinazione successiva alla coda
