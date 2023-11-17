@@ -87,9 +87,10 @@ public class CrittografiaVigenere {
     
     public static ArrayList<String> bruteForce(String messaggio) {
         
+        ArrayList<String> listaChiavi = new ArrayList<String>();
         ArrayList<String> listaDecifrata = new ArrayList<String>();
         
-        String chiave = "zzzzz";
+        String chiave = "AAAAA";
         int [] vetValidi = new int [3];
         int [][] matValidi = new int [3][10];
         boolean sentinel = true;
@@ -141,12 +142,12 @@ public class CrittografiaVigenere {
             } else vetAsciiC[4] += 1;
             
         } while (sentinel);
-         //Trova le lettere di mezzo che danno 9 come risultato alla sottrazione tra messaggio e chiave (caratteri interi dell'agente)
+         //Trova le lettere di mezzo che danno 0 come risultato alla sottrazione tra messaggio e chiave (caratteri interi dell'agente)
         for (int i = 0; i < 3; i++) {
             
             sentinel = true;
             do {
-                if (vetAsciiM[i+1] - vetAsciiC[i+1] == 57) {
+                if (vetAsciiM[i+1] - vetAsciiC[i+1] == 48 ) {
                     vetValidi[i] = vetAsciiC[i+1];
                     sentinel = false;
                 } else if (vetAsciiC[i+1] == Z_val + 1) {
@@ -205,7 +206,11 @@ public class CrittografiaVigenere {
         
         //Generazione di tutte le combinazioni
         
-        listaDecifrata = CrittografiaVigenere.generaCombinazioni(matValidi, iniziale, finale);
+        listaChiavi = CrittografiaVigenere.generaCombinazioni(matValidi, iniziale, finale);
+        int dimLista = listaChiavi.size();
+        for (int i = 0; i < dimLista; i++) {
+            listaDecifrata.add(CrittografiaVigenere.decrittaMessaggio(messaggio, listaChiavi.get(i)));
+        }
         
         return listaDecifrata;
     } 
