@@ -213,13 +213,17 @@ public class MenuSender extends JFrame implements ActionListener {
 
                 String key = keyTextField.getText();
                 
+                if (key.length() != 5) {
+                    throw new IllegalArgumentException();
+                }
+                
                 for (int i = 0; i < key.length(); i++) {
                     if (Integer.valueOf(key.charAt(i)) < 65 || Integer.valueOf(key.charAt(i)) > 90) {
                         if (Integer.valueOf(key.charAt(i)) < 97 || Integer.valueOf(key.charAt(i)) > 122) throw new IllegalArgumentException();
                     }
                 }
                 
-                String criptedMessage = CrittografiaVigenere.crittaMessaggio(messageTextArea.getText(), key);
+                String criptedMessage = CrittografiaVigenere.crittaMessaggio(message, key);
                 
                 byte[] sendData = criptedMessage.getBytes();
 
@@ -232,7 +236,7 @@ public class MenuSender extends JFrame implements ActionListener {
             } catch (IOException ioex) {
                 JOptionPane.showMessageDialog(null, "Error: " + ioex);
             } catch (IllegalArgumentException iaex) {
-                JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver inserito solo lettere nella chiave!");
+                JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver inserito 5 lettere nella chiave!");
             }
         }
         

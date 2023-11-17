@@ -89,7 +89,12 @@ public class MenuDecoder extends JFrame implements ActionListener {
         if (e.getSource() == bruteForce) {
             
             if (vigenereDec.isSelected()) {
-                //
+                
+                String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
+                System.out.println(toDecrypt);
+                ArrayList<String> possibleMessages = CrittografiaVigenere.bruteForce(toDecrypt);
+                JOptionPane.showMessageDialog(null, "Messaggi trovati: \n" + possibleMessages.get(0));
+                
             } else if (cesareDec.isSelected()) {
                 String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
                 String originalMessage = CrittografiaCesare.bruteForce(toDecrypt);
