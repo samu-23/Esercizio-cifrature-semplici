@@ -14,7 +14,7 @@ import esercizio.cifrature.semplici.CrittografiaVigenere;
 
 /**
  *
- * @author acer
+ * @author Tommaso Melani
  */
 public class MenuSender extends JFrame implements ActionListener {
 

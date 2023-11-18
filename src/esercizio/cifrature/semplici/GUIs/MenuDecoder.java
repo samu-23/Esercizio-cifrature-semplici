@@ -19,7 +19,7 @@ import java.util.logging.Logger;
 
 /**
  *
- * @author acer
+ * @author Tommaso Melani
  */
 public class MenuDecoder extends JFrame implements ActionListener {
 

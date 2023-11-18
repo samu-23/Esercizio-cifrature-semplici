@@ -16,7 +16,7 @@ import javax.swing.table.DefaultTableModel;
 
 /**
  *
- * @author acer
+ * @author Tommaso Melani
  */
 public class MenuReceiver extends JFrame implements ActionListener {
     

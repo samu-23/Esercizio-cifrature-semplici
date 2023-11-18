@@ -1,5 +1,9 @@
 package esercizio.cifrature.semplici;
 
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -89,6 +93,15 @@ public class CrittografiaVigenere {
         
         ArrayList<String> listaChiavi = new ArrayList<String>();
         ArrayList<String> listaDecifrata = new ArrayList<String>();
+        ArrayList<String> listaDecifrataDizionario = new ArrayList<String>();
+        
+        String nomeFile = "\\src\\esercizio\\cifrature\\semplici\\Resources\\dizionario.txt";
+
+        // Ottieni il percorso del progetto NetBeans
+        String cartellaProgetto = System.getProperty("user.dir");
+
+        // Costruisci il percorso completo del file
+        String percorsoCompleto = cartellaProgetto + File.separator + nomeFile;
         
         String chiave = "AAAAA";
         int [] vetValidi = new int [3];
@@ -207,12 +220,49 @@ public class CrittografiaVigenere {
         //Generazione di tutte le combinazioni
         
         listaChiavi = CrittografiaVigenere.generaCombinazioni(matValidi, iniziale, finale);
-        int dimLista = listaChiavi.size();
-        for (int i = 0; i < dimLista; i++) {
+        int dimListaChiavi = listaChiavi.size();
+        
+        
+        // Crea un oggetto File con il percorso completo
+        File file = new File(percorsoCompleto);
+        
+        for (int i = 0; i < dimListaChiavi; i++) {
             listaDecifrata.add(CrittografiaVigenere.decrittaMessaggio(messaggio, listaChiavi.get(i)));
         }
         
-        return listaDecifrata;
+        int dimListaDecifrata = listaDecifrata.size();
+        
+        for (int i = 0; i < dimListaDecifrata; i++) {
+            
+            try {
+
+                // Usa BufferedReader per leggere il contenuto del file
+                BufferedReader reader = new BufferedReader(new FileReader(file));
+                
+                String linea;
+                
+                String [] paroleMessaggio = listaDecifrata.get(i).split(" ");
+                
+                // Leggi ogni riga del file
+                while ((linea = reader.readLine()) != null) {
+                    for (int j = 1; j < paroleMessaggio.length; j++) {
+                        if (paroleMessaggio[j].toLowerCase().equals(linea)) {
+                            listaDecifrataDizionario.add(listaDecifrata.get(i));
+                            break;
+                        }
+                    }
+                }
+
+                // Chiudi il BufferedReader
+                reader.close();
+
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            
+        }
+        
+        return listaDecifrataDizionario;
     } 
     
     private static ArrayList<String> generaCombinazioni(int[][] matValidi, char A, char B) {
