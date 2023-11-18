@@ -42,8 +42,6 @@ public class MenuReceiver extends JFrame implements ActionListener {
     JTable table = new JTable(tableModel);
     TableColumn firstColumn = table.getColumnModel().getColumn(0);
     
-    
-    
     JLabel getIpLabel = new JLabel("Your IP: ");
     JTextField getIpTextField = new JTextField();
     JButton getIpButton = new JButton("Get IP");

@@ -29,8 +29,6 @@ public class MenuPrincipale extends JFrame implements ActionListener {
         setTitle(title);
         setBounds(200, 100, 300, 200);
         
-        // Componenti del JFrame
-        
         titoloLabel.setLocation(WIDTH/2, 0);
         titoloLabel.setFont(new Font("Monospaced", Font.BOLD, 30));
         

@@ -95,40 +95,52 @@ public class MenuDecoder extends JFrame implements ActionListener {
             
             if (vigenereDec.isSelected()) {
                 
-                String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
-                System.out.println(toDecrypt);
-                ArrayList<String> possibleMessages = CrittografiaVigenere.bruteForce(toDecrypt);
-                //JOptionPane.showMessageDialog(null, "Messaggi trovati: \n" + possibleMessages.toString());
-               
-                    String outputFilePath = System.getProperty("user.home") + "/Desktop/BRUTE FORCE Vigenere.txt";
                 try {
-                    BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
-                    String allMessages = possibleMessages.toString();
-                    allMessages = allMessages.replace(allMessages.charAt(0), ' ');
-                    allMessages = allMessages.replace(allMessages.charAt(allMessages.length()-1), ' ');
-                    String[] decryptedMessages = allMessages.split(",");
-                    
-                    for (String message : decryptedMessages) {
-                        
-                        writer.write(message);
-                        writer.newLine();
-                        
+                    String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
+
+                    System.out.println(toDecrypt);
+                    ArrayList<String> possibleMessages = CrittografiaVigenere.bruteForce(toDecrypt);
+                    //JOptionPane.showMessageDialog(null, "Messaggi trovati: \n" + possibleMessages.toString());
+
+                        String outputFilePath = System.getProperty("user.home") + "/Desktop/BRUTE FORCE Vigenere.txt";
+                    try {
+                        BufferedWriter writer = new BufferedWriter(new FileWriter(outputFilePath));
+                        String allMessages = possibleMessages.toString();
+                        allMessages = allMessages.replace(allMessages.charAt(0), ' ');
+                        allMessages = allMessages.replace(allMessages.charAt(allMessages.length()-1), ' ');
+                        String[] decryptedMessages = allMessages.split(",");
+
+                        for (String message : decryptedMessages) {
+
+                            writer.write(message);
+                            writer.newLine();
+
+                        }
+
+                        writer.close();
+                        JOptionPane.showMessageDialog(null, "Le combinazioni sono nel file 'BRUTE FORCE Vigenere'\nPercorso file: " + outputFilePath);
+
+                    } catch (IOException ex) {
+
                     }
-                    
-                    writer.close();
-                    JOptionPane.showMessageDialog(null, "Le combinazioni sono nel file 'BRUTE FORCE Vigenere'\nPercorso file: " + outputFilePath);
-                    
-                } catch (IOException ex) {
-                    
+                } catch (NullPointerException nex) {
+                    JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver selezionato un messaggio!");
                 }
                 
             } else if (cesareDec.isSelected()) {
-                String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
-                String originalMessage = CrittografiaCesare.bruteForce(toDecrypt);
-                JOptionPane.showMessageDialog(null, "BRUTED: " + originalMessage);
+                
+                try {
+                    String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
+                    String originalMessage = CrittografiaCesare.bruteForce(toDecrypt);
+                    JOptionPane.showMessageDialog(null, "BRUTED: " + originalMessage);
+
+                } catch (NullPointerException nex) {
+                    JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver selezionato un messaggio!");
+                }
             } else {
                 JOptionPane.showMessageDialog(null, "Seleziona prima un tipo di decrittazione!");
             }
+            
             
         }
         
@@ -154,19 +166,23 @@ public class MenuDecoder extends JFrame implements ActionListener {
                 
                try { 
                 
-               String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
-               String originalMessage = CrittografiaCesare.decrittaMessaggio(toDecrypt, Integer.parseInt(keyTextField.getText()));
-               JOptionPane.showMessageDialog(null, "Decrypted: " + originalMessage);
+                    String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
+                    String originalMessage = CrittografiaCesare.decrittaMessaggio(toDecrypt, Integer.parseInt(keyTextField.getText()));
+                    JOptionPane.showMessageDialog(null, "Decrypted: " + originalMessage);
                 
-               } catch (NumberFormatException nex) {
+                } catch (NumberFormatException nex) {
                    JOptionPane.showMessageDialog(null, "Errore! Controlla di avere inserito una chiave opportuna!");
-               }
+                } catch (NullPointerException nex) {
+                    JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver selezionato un messaggio!");
+                }
             } else if (vigenereDec.isSelected()) {
-                
-               String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
-               String originalMessage = CrittografiaVigenere.decrittaMessaggio(toDecrypt, keyTextField.getText());
-               JOptionPane.showMessageDialog(null, "Decrypted: " + originalMessage);
-                
+                try {
+                    String toDecrypt = messagesComboBox.getSelectedItem().toString().substring(4,messagesComboBox.getSelectedItem().toString().length());
+                    String originalMessage = CrittografiaVigenere.decrittaMessaggio(toDecrypt, keyTextField.getText());
+                    JOptionPane.showMessageDialog(null, "Decrypted: " + originalMessage);
+                }catch (NullPointerException nex) {
+                   JOptionPane.showMessageDialog(null, "Errore!\nAssicurati di aver selezionato un messaggio!");
+                }
             }
             
         }

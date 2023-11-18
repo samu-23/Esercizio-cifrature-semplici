@@ -26,6 +26,7 @@ public class MenuSender extends JFrame implements ActionListener {
     JPanel messagePanel = new JPanel();
     JLabel messageLabel = new JLabel("Message: ");
     JTextArea messageTextArea = new JTextArea();
+    JScrollPane messageTextScroll = new JScrollPane(messageTextArea);
     JLabel keyLabel = new JLabel("Key: ");
     JTextField keyTextField = new JTextField();
     
@@ -65,7 +66,8 @@ public class MenuSender extends JFrame implements ActionListener {
         confirmButton.addActionListener(this);
         sendButton.addActionListener(this);
         
-        messageTextArea.setPreferredSize(new Dimension(100,100));
+        messageTextArea.setPreferredSize(new Dimension(175,100));
+        messageTextScroll.setPreferredSize(new Dimension(175, 100));
         messageTextArea.setBorder(BorderFactory.createLineBorder(Color.GRAY));
         keyTextField.setPreferredSize(new Dimension(50,20));
         agentTextField.setPreferredSize(new Dimension(50,20));
@@ -97,8 +99,8 @@ public class MenuSender extends JFrame implements ActionListener {
         messagePanel.add(agentTextField);
         messagePanel.add(Box.createRigidArea(new Dimension(20, 50)));
         messagePanel.add(messageLabel);
-        messagePanel.add(messageTextArea);
-        messagePanel.add(Box.createRigidArea(new Dimension(100, 50)));
+        messagePanel.add(messageTextScroll);
+        messagePanel.add(Box.createRigidArea(new Dimension(25, 50)));
         messagePanel.add(keyLabel);
         messagePanel.add(keyTextField);
         messagePanel.add(Box.createRigidArea(new Dimension(40, 50)));
@@ -152,12 +154,13 @@ public class MenuSender extends JFrame implements ActionListener {
                     throw new IllegalArgumentException();
                 }
                 
-                if (agentTextField.getText().isEmpty() || agentTextField.getText() == null) throw new IndexOutOfBoundsException();
+                                
+                if (agentTextField.getText().isEmpty() || agentTextField.getText() == null || agentTextField.getText().length() != 4) throw new IndexOutOfBoundsException();
                 String bindedString = agentTextField.getText() + ": " + messageTextArea.getText();
                 
                 if (cesare.isSelected() || vigenere.isSelected()) sendMessage(bindedString, ipString, portInt); 
             } catch (IndexOutOfBoundsException ex) {
-                JOptionPane.showMessageDialog(null, "Controlla di aver inserito il tuo codice Agente.");
+                JOptionPane.showMessageDialog(null, "Controlla di aver inserito il tuo codice Agente composto da 4 cifre.");
             } catch (IllegalArgumentException ilex) {
                 JOptionPane.showMessageDialog(null, "Scrivi meno di 512 caratteri!\n" + ilex);
             }
